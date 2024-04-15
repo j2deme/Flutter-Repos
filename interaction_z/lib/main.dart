@@ -37,16 +37,28 @@ class _MyHomePageState extends State<MyHomePage> {
   double w = 100;
   double r = 10;
 
+  List<Map<String, dynamic>> food = [
+    {"name": "Pizza", "icon": Icons.local_pizza},
+    {"name": "Hamburguesa", "icon": Icons.lunch_dining},
+    {"name": "Manzana", "icon": Icons.apple},
+    {"name": "Ramen", "icon": Icons.ramen_dining},
+    {"name": "Helado", "icon": Icons.icecream}
+  ];
+
+  int foodNumber = 0;
+
   @override
   Widget build(BuildContext context) {
+    foodNumber = food.length;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: ListView(
+          //mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -115,6 +127,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: color2,
                         borderRadius: BorderRadius.circular(r),
                       ),
+                      child: Center(
+                        child: Text(
+                          "$foodNumber",
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
                     onTap: () {
                       setState(() {
@@ -126,7 +145,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 )
               ],
-            )
+            ),
+            const Divider(),
+            /*const Dismissible(
+              key: Key("Pizza"),
+              child: ListTile(
+                title: Text("Pizza"),
+                leading: Icon(Icons.local_pizza),
+              ),
+            ),*/
+            for (var item in food)
+              Dismissible(
+                key: Key(item["name"]),
+                onDismissed: (direction) {
+                  setState(() {
+                    foodNumber--;
+                    food.remove(item);
+                  });
+                },
+                child: ListTile(
+                  title: Text(item["name"]),
+                  trailing: Icon(item["icon"]),
+                ),
+              ),
           ],
         ),
       ),
