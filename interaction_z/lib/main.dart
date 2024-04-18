@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -40,16 +42,23 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Map<String, dynamic>> food = [
     {"name": "Pizza", "icon": Icons.local_pizza},
     {"name": "Hamburguesa", "icon": Icons.lunch_dining},
-    {"name": "Manzana", "icon": Icons.apple},
-    {"name": "Ramen", "icon": Icons.ramen_dining},
-    {"name": "Helado", "icon": Icons.icecream}
+    //{"name": "Manzana", "icon": Icons.apple},
+    //{"name": "Ramen", "icon": Icons.ramen_dining},
+    //{"name": "Helado", "icon": Icons.icecream}
   ];
 
   int foodNumber = 0;
+  int second = 0;
+  bool pressed = false;
 
   @override
   Widget build(BuildContext context) {
     foodNumber = food.length;
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        second = DateTime.now().second;
+      });
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -168,6 +177,74 @@ class _MyHomePageState extends State<MyHomePage> {
                   trailing: Icon(item["icon"]),
                 ),
               ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                  width: w,
+                  height: h,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(r),
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        pressed = !pressed;
+                      });
+                    },
+                    child: const Text(
+                      "Animated Container",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                AnimatedOpacity(
+                  opacity: second % 2 == 0 ? 1.0 : 0.5,
+                  duration: const Duration(milliseconds: 500),
+                  child: const Icon(
+                    Icons.favorite,
+                    size: 100,
+                    color: Colors.red,
+                  ),
+                ),
+                /*AnimatedPositioned(
+                  // FIXME: No se mueve
+                  duration: const Duration(milliseconds: 500),
+                  left: pressed ? 100 : 0,
+                  top: pressed ? 100 : 0,
+                  child: GestureDetector(
+                    child: const Icon(Icons.beach_access),
+                    onTap: () {
+                      setState(() {
+                        pressed = !pressed;
+                      });
+                    },
+                  ),
+                )*/
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                AnimatedCrossFade(
+                  firstChild: const Icon(
+                    Icons.adb,
+                    size: 50,
+                  ),
+                  secondChild: const Icon(
+                    Icons.abc,
+                    size: 50,
+                  ),
+                  crossFadeState: pressed
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  duration: const Duration(milliseconds: 500),
+                )
+              ],
+            )
           ],
         ),
       ),
