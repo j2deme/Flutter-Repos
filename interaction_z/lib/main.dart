@@ -242,7 +242,30 @@ class _MyHomePageState extends State<MyHomePage> {
                       ? CrossFadeState.showFirst
                       : CrossFadeState.showSecond,
                   duration: const Duration(milliseconds: 500),
-                )
+                ),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 1000),
+                  transitionBuilder: (child, animation) {
+                    return ScaleTransition(
+                      scale: animation,
+                      child: child,
+                    );
+                  },
+                  switchInCurve: Curves.easeInOut,
+                  switchOutCurve: Curves.easeInOut,
+                  child: !pressed
+                      ? const Icon(
+                          Icons.lightbulb_outline,
+                          size: 50,
+                          key: ValueKey("apagado"),
+                        )
+                      : const Icon(
+                          Icons.lightbulb,
+                          size: 50,
+                          color: Colors.yellow,
+                          key: ValueKey("encendido"),
+                        ),
+                ),
               ],
             )
           ],
