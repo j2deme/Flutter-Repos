@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   int segundo = 0;
+  bool presionado = false;
 
   @override
   Widget build(BuildContext context) {
@@ -181,8 +182,111 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 )
               ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        presionado = !presionado;
+                      });
+                    },
+                    child: AnimatedCrossFade(
+                      firstChild:
+                          const Text("123", style: TextStyle(fontSize: 30)),
+                      secondChild:
+                          const Text("321", style: TextStyle(fontSize: 30)),
+                      crossFadeState: !presionado
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                      duration: const Duration(milliseconds: 500),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        presionado = !presionado;
+                      });
+                    },
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      transitionBuilder: (child, animation) {
+                        return ScaleTransition(
+                          scale: animation,
+                          child: child,
+                        );
+                      },
+                      child: !presionado
+                          ? const Icon(
+                              Icons.lightbulb_outline,
+                              size: 50,
+                              key: ValueKey("corazon"),
+                            )
+                          : const Icon(
+                              Icons.lightbulb,
+                              size: 50,
+                              color: Colors.orange,
+                              key: ValueKey("estrella"),
+                            ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Pantalla2()),
+                      );
+                    },
+                    child: Hero(
+                      tag: "avatar",
+                      child: Image.asset(
+                        "assets/avatar.png",
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
+                  ),
+                )
+              ],
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class Pantalla2 extends StatelessWidget {
+  const Pantalla2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Hero(
+            tag: "avatar",
+            child: Image.asset(
+              "assets/avatar.png",
+              width: 400,
+              height: 400,
+            ),
+          ),
         ),
       ),
     );
