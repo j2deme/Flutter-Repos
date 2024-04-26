@@ -37,6 +37,13 @@ class _MyAppState extends State<MyApp> {
     const BottomNavigationBarItem(icon: Icon(Icons.looks_two), label: "Otra")
   ];
 
+  var tabs2 = <Tab>[
+    const Tab(icon: Icon(Icons.home), text: "Inicio"),
+    const Tab(icon: Icon(Icons.android), text: "Android"),
+    const Tab(icon: Icon(Icons.interests_outlined), text: "Figuras"),
+    const Tab(icon: Icon(Icons.looks_two), text: "Dos")
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,19 +52,35 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Scaffold(
-        body: pages[tabActiva],
-        bottomNavigationBar: BottomNavigationBar(
-          items: tabs,
-          currentIndex: tabActiva,
-          onTap: (index) {
-            setState(() {
-              tabActiva = index;
-              //print(tabActiva);
-            });
-          },
-          selectedItemColor: Theme.of(context).primaryColor,
-          unselectedItemColor: Colors.black54,
+      home: DefaultTabController(
+        length: tabs2.length,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Navegación"),
+            bottom: TabBar(
+              tabs: tabs2,
+              onTap: (index) {
+                setState(() {
+                  tabActiva = index;
+                });
+              },
+            ),
+          ),
+          body: TabBarView(
+            children: [pages[tabActiva]],
+          ), //pages[tabActiva],
+          bottomNavigationBar: BottomNavigationBar(
+            items: tabs,
+            currentIndex: tabActiva,
+            onTap: (index) {
+              setState(() {
+                tabActiva = index;
+                //print(tabActiva);
+              });
+            },
+            selectedItemColor: Theme.of(context).primaryColor,
+            unselectedItemColor: Colors.black54,
+          ),
         ),
       ),
       routes: {
