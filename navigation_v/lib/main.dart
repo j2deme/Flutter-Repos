@@ -6,8 +6,36 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int tabActiva = 0;
+  var pages = [
+    const MyHomePage(title: "Pantalla 1"),
+    const Pantalla2(),
+    const Pantalla3(),
+    const Pantalla2(),
+  ];
+
+  var tabs = <BottomNavigationBarItem>[
+    const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Inicio"),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.android),
+      label: "Android",
+      activeIcon: Icon(
+        Icons.android,
+        color: Colors.green,
+      ),
+    ),
+    const BottomNavigationBarItem(
+        icon: Icon(Icons.interests_outlined), label: "Figuras"),
+    const BottomNavigationBarItem(icon: Icon(Icons.looks_two), label: "Otra")
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +45,23 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      //home: const MyHomePage(title: 'Pantalla 1'),
-      //initialRoute: '/pantalla2',
+      home: Scaffold(
+        body: pages[tabActiva],
+        bottomNavigationBar: BottomNavigationBar(
+          items: tabs,
+          currentIndex: tabActiva,
+          onTap: (index) {
+            setState(() {
+              tabActiva = index;
+              //print(tabActiva);
+            });
+          },
+          selectedItemColor: Theme.of(context).primaryColor,
+          unselectedItemColor: Colors.black54,
+        ),
+      ),
       routes: {
-        '/': (context) => const MyHomePage(title: "Pantalla 1"),
+        '/inicio': (context) => const MyHomePage(title: "Pantalla 1"),
         '/pantalla2': (context) => const Pantalla2(),
         '/vista-detalle': (context) => const Pantalla2(),
         '/pantalla3': (context) => const Pantalla3(),
