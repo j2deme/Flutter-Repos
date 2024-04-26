@@ -14,7 +14,11 @@ class Pantalla4 extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              }
+            },
             child: const Center(
               child: Icon(
                 Icons.cake,
