@@ -11,7 +11,10 @@ class Pantalla3 extends StatelessWidget {
           backgroundColor: Colors.orange,
         ),
         body: InkWell(
-          onTap: () => Navigator.pop(context),
+          onTap: () => Navigator.popUntil(
+            context,
+            ModalRoute.withName('/'),
+          ),
           child: const Center(
             child: Icon(
               Icons.swipe_outlined,
