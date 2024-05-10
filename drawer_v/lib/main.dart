@@ -64,6 +64,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ];
 
+    List<Map<String, dynamic>> contactos = [
+      {"nombre": "Jaime Delgado", "correo": "jesus.delgado@tecvalles.mx", "color": Colors.red},
+      {"nombre": "Xally Martínez", "correo": "20690080@tecvalles.mx", "color": Colors.pink},
+      {"nombre": "Esau Ramos", "correo": "19690277@tecvalles.mx", "color": Colors.black}
+    ];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -85,15 +91,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Inicio',
-            ),
-          ],
-        ),
+      body: ListView.builder(
+        itemCount: contactos.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(contactos[index]["nombre"]),
+            subtitle: Text(contactos[index]["correo"]),
+          );
+        },
       ),
     );
   }
