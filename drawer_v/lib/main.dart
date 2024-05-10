@@ -97,6 +97,21 @@ class _MyHomePageState extends State<MyHomePage> {
           return ListTile(
             title: Text(contactos[index]["nombre"]),
             subtitle: Text(contactos[index]["correo"]),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PerfilPage(
+                    nombre: contactos[index]["nombre"],
+                    correo: contactos[index]["correo"],
+                    color: contactos[index]["color"],
+                  ),
+                ),
+              );
+            },
+            onLongPress: (){
+              Navigator.pushNamed(context, "/perfil", arguments: contactos[index]);
+            }
           );
         },
       ),
