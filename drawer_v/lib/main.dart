@@ -107,24 +107,36 @@ class _MyHomePageState extends State<MyHomePage> {
         itemCount: contactos.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(contactos[index]["nombre"]),
-            subtitle: Text(contactos[index]["correo"]),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PerfilPage(
-                    nombre: contactos[index]["nombre"],
-                    correo: contactos[index]["correo"],
-                    color: contactos[index]["color"],
+              title: Text(contactos[index]["nombre"]),
+              subtitle: Text(contactos[index]["correo"]),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    /*
+                    Al utilizar el paso de información unidireccional vía
+                    constructor, se debe asegurar de que los campos que se
+                    envían, existan en el widget que los recibe.
+
+                    Lo anterior es especialmente necesario cuando el parámetro
+                    esta marcado como *required*.
+                     */
+                    builder: (context) => PerfilPage(
+                      nombre: contactos[index]["nombre"],
+                      correo: contactos[index]["correo"],
+                      color: contactos[index]["color"],
+                    ),
                   ),
-                ),
-              );
-            },
-            onLongPress: (){
-              Navigator.pushNamed(context, "/perfil", arguments: contactos[index]);
-            }
-          );
+                );
+              },
+              onLongPress: () {
+                /*
+                Cuando se utiliza el paso de información unidireccional vía
+                rutas, el widget que recibe espera un "Map" con los datos.
+                 */
+                Navigator.pushNamed(context, "/perfil",
+                    arguments: contactos[index]);
+              });
         },
       ),
     );
