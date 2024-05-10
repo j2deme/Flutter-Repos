@@ -35,9 +35,9 @@ class PerfilPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text((hasArguments) ? args!["correo"]: correo, style: TextStyle(color: color, fontSize: 24)),
-            if(hasArguments)
-              const Icon(Icons.android)
+            Text((hasArguments) ? args!["correo"] : correo,
+                style: TextStyle(color: color, fontSize: 24)),
+            if (hasArguments) const Icon(Icons.android)
           ],
         ),
       ),
